@@ -1,0 +1,6 @@
+venv
+*.swp
+dist
+build
+.vscode
+.ipython_checkpoints

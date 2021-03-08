@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Mar  5 14:17:27 2019
-
-@author: jeromlu2
-"""
-
-# python packages
-import sys, time, io, traceback
+#
+# Created on Tue Mar 05 2019
+#
+# Copyright (c) 2021 Your Company
+# Name: Luka Jeromel
+#
+# ******************************Python imports***********************************
+import sys
+import time
+import io
+import traceback
 import os
 
-# third party packages
+# ******************************PyQt5 imports*************************************
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QAction
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QVBoxLayout
 from PyQt5.QtWidgets import QHeaderView, QPushButton, QLabel
@@ -23,16 +26,16 @@ from PyQt5.QtCore import Qt
 
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 
+# ******************************Other third party imports************************
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
-
-# my modules
+# ******************************My modules***************************************
 import custom_widgets as cw
 import pH_calculation_Rushd
 import output_string
-import qrc_resources
+import qrc_resources  # noqa F401
 
 # exe location
 # determine if application is a script file or frozen exe
@@ -506,8 +509,7 @@ class BufferCalculatorUI(QMainWindow):
 
 
 def excepthook(excType, excValue, tracebackobj):
-    """
-    Global function to catch unhandled exceptions.
+    """Global function to catch unhandled exceptions.
 
     @param excType exception type
     @param excValue exception value
@@ -544,19 +546,20 @@ def excepthook(excType, excValue, tracebackobj):
     errorbox.exec_()
 
 
+def main():
+    if not QApplication.instance():
+        app = QApplication(sys.argv)
+    else:
+        app = QApplication.instance()
+    mainWin = BufferCalculatorUI()
+    app.setWindowIcon(QIcon(":/main_window_icon.png"))
+    mainWin.setWindowTitle("Buffer maker")
+    mainWin.resize(1000, 600)
+    mainWin.show()
+    app.exec_()
+
+
 if __name__ == "__main__":
 
-    def run_app():
-        if not QApplication.instance():
-            app = QApplication(sys.argv)
-        else:
-            app = QApplication.instance()
-        mainWin = BufferCalculatorUI()
-        app.setWindowIcon(QIcon(":/main_window_icon.png"))
-        mainWin.setWindowTitle("Buffer maker")
-        mainWin.resize(1000, 600)
-        mainWin.show()
-        app.exec_()
-
     sys.excepthook = excepthook
-    run_app()
+    main()

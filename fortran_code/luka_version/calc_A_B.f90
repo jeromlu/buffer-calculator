@@ -28,13 +28,16 @@
 
     ! getting A and B gram values!
     do loop_calc = 1, 2
-        ! setting the values
+
+        ! setting input the values
         molarities(:) = input_molarities(:,loop_calc) ! setting the proper molarities
         pH = input_pH(loop_calc) ! getting the proper pH
         phos_type = input_phos_type(loop_calc) ! setting the hosphate type
-        ! calling the routine
+
+        ! Calling the routine.
         call calc_all_grams(molarities, pH, phos_type) ! getting the pH values!
-        ! setting the saved values!
+
+        ! Setting output values!
         grams(:,loop_calc) = out_grams(:)* input_V(loop_calc)
         ion_str(loop_calc) = ion_str_real 
         conduc(loop_calc) = conductivity
@@ -42,8 +45,10 @@
         Na_pres(loop_calc) = Na_needed
         Cl_pres(loop_calc) = Cl_needed
     end do
+
+    ! Write to file 'out_A&B_sngl.dat'
     do loop_grams = 1,20
-        write(25,5) grams (loop_grams,:) ! writing gram values
+        write(25,5) grams (loop_grams,:) ! Writing gram values.
     end do
     write(25,5) ion_str
     write(25,5) conduc
