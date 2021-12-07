@@ -3,4 +3,4 @@ venv
 dist
 build
 .vscode
-.ipython_checkpoints
+.ipynb_checkpoints

@@ -80,9 +80,7 @@ class Buffer(object):
         phosphate_type = 1
         # This is dependant on specific chemicals that would be used.
         Na_min = (
-            added_NaCl_M
-            + phosphate_type * added_mol_M["Phosphate"]
-            + 2 * added_mol_M["EDTA"]
+            added_NaCl_M + phosphate_type * added_mol_M["Phosphate"] + 2 * added_mol_M["EDTA"]
         )
         Cl_min = added_NaCl_M + added_mol_M["Cysteine"] + added_mol_M["Arginine"]
         ion_str_M = 0.5 * (Na_min + Cl_min)
@@ -156,9 +154,7 @@ class WaterSolution(object):
     def __electro_neutrality_error(self) -> np.float32:
         error = 0.0
         for species in self.__ion_molarities:
-            error += (
-                self.__charges_data[species] * self.__ion_molarities[species]
-            ).sum()
+            error += (self.__charges_data[species] * self.__ion_molarities[species]).sum()
 
         return error + self.__conc_Na_M - self.__conc_Cl_M
 
@@ -166,9 +162,7 @@ class WaterSolution(object):
         return test_ion_strength - self.__ion_strength()
 
     @staticmethod
-    def __effective_pKa(
-        pKa: np.float32, IS_M: np.float32, charge: np.float32
-    ) -> np.float32:
+    def __effective_pKa(pKa: np.float32, IS_M: np.float32, charge: np.float32) -> np.float32:
         """Corrects dissociation constant defined at 298 K and infinite dilution
         for  solution ionic strength using extended Debye-Huckel relationship proposed
         by Davies (see Pabst Carta 2007 articel page 21).
@@ -183,9 +177,7 @@ class WaterSolution(object):
         # Buffer-dependent constant, e. g. 0.16 for acetate and 0.16 for phosphate
         b = 0.1
         # b was set to 0.1 if no measurements were found.
-        return pKa + (
-            2 * (charge) * (A * np.sqrt(IS_M) / (1 + np.sqrt(IS_M)) - b * IS_M)
-        )
+        return pKa + (2 * (charge) * (A * np.sqrt(IS_M) / (1 + np.sqrt(IS_M)) - b * IS_M))
 
     def __calculate_molarities(
         self, pH: np.float32, ion_strength: np.float32, correct_for_IS: bool = True,
@@ -211,9 +203,7 @@ class WaterSolution(object):
             denom = 1
             term = 1
 
-            for charge, pKa in zip(
-                self.__charges_data[species], self.__pKa_data[species]
-            ):
+            for charge, pKa in zip(self.__charges_data[species], self.__pKa_data[species]):
                 pKa_eff = pKa
                 if correct_for_IS:
                     pKa_eff = self.__effective_pKa(pKa, ion_strength, charge)
@@ -310,7 +300,8 @@ class WaterSolution(object):
 
             if verbose:
                 print(
-                    f"step: {iteration} pH: {pH:8.5f} IS: {IS:8.5f}, error: {abs(pH-previous_pH):9.7f}"
+                    f"step: {iteration} pH: {pH:8.5f} IS: {IS:8.5f}, error: "
+                    f"{abs(pH-previous_pH):9.7f}"
                 )
             iteration += 1
         return pH, IS
