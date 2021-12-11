@@ -4,3 +4,5 @@ dist
 build
 .vscode
 .ipynb_checkpoints
+__pycache__
+.log
