@@ -12,7 +12,6 @@ based on Rushd Fortran script
 import re
 import subprocess
 import os.path
-import time
 
 
 # Global variables
@@ -31,16 +30,14 @@ class FortranCommunication(object):
         self.folder = folder
 
     def write_parameters(self, write_lst):
-        """ Writes to "param_all.dat"
-        """
+        """Writes to "param_all.dat" """
         with open(self.folder + FNAME_OUT, "w") as file:
             for element in write_lst:
                 write_string = element + "   " + element + "\n"
                 file.write(write_string)
 
     def run_subprocess(self):
-        """Runs Fortran subprocess. Current executable: calc_pH_values.exe
-        """
+        """Runs Fortran subprocess. Current executable: calc_pH_values.exe"""
         subprocess.call(self.folder + FORTRAN_EXE, cwd=FOLDER)
 
     def read_data(self, parent):

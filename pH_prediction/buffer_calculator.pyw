@@ -32,10 +32,10 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from matplotlib.figure import Figure
 
 # ******************************My modules***************************************
-import custom_widgets as cw
-import pH_calculation_Rushd
-import output_string
-import qrc_resources  # noqa F401
+import pH_prediction.custom_widgets as cw
+from pH_prediction import pH_calculation_Rushd
+from pH_prediction import output_string
+from pH_prediction import qrc_resources  # noqa F401
 
 # exe location
 # determine if application is a script file or frozen exe
@@ -502,9 +502,7 @@ class BufferCalculatorUI(QMainWindow):
     def print_err(self):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        err_msg = "{0}:\n{1}\nError occurred in file: {2}".format(
-            exc_type, exc_obj, fname
-        )
+        err_msg = "{0}:\n{1}\nError occurred in file: {2}".format(exc_type, exc_obj, fname)
         # QMessageBox.critical(self, 'Error - see below', err_msg)
 
 
@@ -547,10 +545,7 @@ def excepthook(excType, excValue, tracebackobj):
 
 
 def main():
-    if not QApplication.instance():
-        app = QApplication(sys.argv)
-    else:
-        app = QApplication.instance()
+    app = QApplication(sys.argv)
     mainWin = BufferCalculatorUI()
     app.setWindowIcon(QIcon(":/main_window_icon.png"))
     mainWin.setWindowTitle("Buffer maker")
